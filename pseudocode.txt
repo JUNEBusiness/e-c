@@ -1,0 +1,9 @@
+Create  the e-commerce package folder
+Use a modular structure
+Create a virtual environment
+Create a static folder to keep the images, css file and js files
+Create the run.py app
+Create the models.py for the database structuring
+Intall the flask package to create the flaskapp
+Install flask-wtf forms that will be used to create all input forms
+Create a forms.py file
