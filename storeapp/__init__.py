@@ -34,7 +34,7 @@ def create_app():
     app.register_blueprint(auth)
     app.register_blueprint(views)
     
-    from .models import User, BlogPost, Releases
+    from .models import User
     
     with app.app_context():
         create_database()
