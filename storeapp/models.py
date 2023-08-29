@@ -1,7 +1,6 @@
 from datetime import datetime
 from .extensions import db
 from .extensions import login_manager
-# from blogapp import create_app
 
 from flask import current_app
 from flask_login import UserMixin
@@ -18,9 +17,11 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     image_file = db.Column(db.Text, nullable=False, default="default.jpg")
+    phone_number = db.Column(db.String(14), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     is_admin = db.Column(db.Boolean, nullable=False, default=False)
-    posts = db.relationship('BlogPost', backref = "author", lazy=True)
+    products = db.relationship('Product', backref = "author", lazy=True)
+    cart = db.relationship('Cart', backref = "Buyer", lazy=True)
 
     def get_reset_token(self):
         s = Serializer(current_app.config["SECRET_KEY"], salt="Reset_password")
@@ -48,4 +49,52 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
+        
+class Product(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.Text, nullable=False)
+    price = db.Column(db.Text, nullable=False)
+    url = db.Column(db.Text, nullable=False)
+    title = db.Column(db.Text, nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default= datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    carts = db.relationship('Cart', backref = "Products", lazy=True)
+
+
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def __repr__(self):
+        return f"BlogPost('{self.title}', '{self.date_posted}')"
+
+class Cart(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date_added = db.Column(db.DateTime, nullable=False, default= datetime.utcnow)
+    is_purchased = db.Column(db.Boolean, nullable=False, default=False)
+    quantity = db.Column(db.Text, nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey("Product.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+
+
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def __repr__(self):
+        return f"BlogPost('{self.title}', '{self.date_added}')"
     

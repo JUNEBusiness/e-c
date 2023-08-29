@@ -3,8 +3,8 @@ from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from .models import BlogPost, User, Releases
-from .forms import RequestResetForm, ResetPasswordForm
+from .models import User
+# from .forms import RequestResetForm, ResetPasswordForm
 from .utils import send_reset_email
 
 views = Blueprint("views", __name__)

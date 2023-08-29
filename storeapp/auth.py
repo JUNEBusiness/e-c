@@ -3,8 +3,8 @@ from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
-from .forms import RegistrationForm, LoginForm, ReleasesForm, BlogPostForm, UpdateAccountForm
-from .models import User, BlogPost, Releases
+# from .forms import RegistrationForm, LoginForm, ReleasesForm, BlogPostForm, UpdateAccountForm
+from .models import User
 from .utils import save_picture, delete_picture, send_reset_email
 
 auth = Blueprint("auth", __name__)
