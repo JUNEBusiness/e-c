@@ -1,0 +1,121 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="form-container py-4">
+<div class="container">
+    <form class="form" action="{{ url_for('auth.register') }}" method="POST">
+        <p class="title">Register </p>
+        <p class="message">Signup now and get full access to our store. </p>
+            <div class="flex">
+            <label>
+                {% if form.first_name.errors %}
+                {{ form.first_name(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                        {% for error in form.first_name.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                </div>
+            {% else %}
+                {{ form.first_name(class="form-control input") }}
+            {% endif %}
+                <span>Firstname</span>
+            </label>
+    
+            <label>
+                {% if form.last_name.errors %}
+                {{ form.last_name(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                        {% for error in form.last_name.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                </div>
+            {% else %}
+                {{ form.last_name(class="form-control input") }}
+            {% endif %}
+                <span>Lastname</span>
+            </label>
+        </div>  
+        <label>
+            {% if form.username.errors %}
+                {{ form.username(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                        {% for error in form.username.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                </div>
+            {% else %}
+                {{ form.username(class="form-control input") }}
+            {% endif %}
+            <span>username</span>
+        </label>             
+        <label>
+            {% if form.email.errors %}
+                {{ form.email(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                        {% for error in form.email.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                </div>
+            {% else %}
+                {{ form.email(class="form-control input") }}
+            {% endif %}
+            <span>email</span>
+        </label> 
+        <label>
+            {% if form.address.errors %}
+                {{ form.address(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                        {% for error in form.address.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                </div>
+            {% else %}
+                {{ form.address(class="form-control input") }}
+            {% endif %}
+            <span>Address</span>
+        </label> 
+        <label>
+            {% if form.phone_number.errors %}
+                {{ form.phone_number(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                        {% for error in form.phone_number.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                </div>
+            {% else %}
+                {{ form.phone_number(class="form-control input") }}
+            {% endif %}
+            <span>Phone number</span>
+        </label>    
+        <label>
+            {% if form.password.errors %}
+                {{ form.password(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                        {% for error in form.password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                </div>
+            {% else %}
+                {{ form.password(class="form-control input") }}
+            {% endif %}
+            <span>Password</span>
+        </label>
+        <label>
+            {% if form.confirm_password.errors %}
+                {{ form.confirm_password(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                        {% for error in form.confirm_password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                </div>
+            {% else %}
+                {{ form.confirm_password(class="form-control input") }}
+            {% endif %}
+            <span>Confirm password</span>
+        </label>
+        {{ form.submit(class="btn btn-lg btn-outline-info submit") }}
+        <p class="signin">Already have an acount ? <a href="{{ url_for('auth.login') }}">Sign-in</a> </p>
+        <p class="signin"> <a href="{{ url_for('auth.admin_registration') }}">Sign-up</a> As a distribuor</p>
+    </form>
+</div>
+</div>
+{% endblock %}

@@ -3,7 +3,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
-# from .forms import RegistrationForm, LoginForm, ReleasesForm, BlogPostForm, UpdateAccountForm
+from .forms import RegistrationForm, LoginForm, ProductPostForm, UpdateAccountForm
 from .models import User
 from .utils import save_picture, delete_picture, send_reset_email
 
@@ -73,6 +73,25 @@ def logout():
 
 @auth.route("/register", methods=["GET", "POST"])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for("views.home"))
+    form = RegistrationForm()
+    if request.method == "GET":
+        return render_template("customer_register.html", title="Register", form=form)
+    elif request.method =="POST":
+        if form.validate_on_submit():
+            user = User(username=form.username.data, email=form.email.data, password=generate_password_hash(form.password.data)) 
+            user.insert()
+            flash(f"Your account has been created! You are now able to log in { form.username.data }", "success")
+            return redirect(url_for("auth.login"))
+        else:
+            form.username.data=form.username.data
+            form.email.data=form.email.data
+            return render_template("customer_register.html", title="Register", form=form)
+        
+
+@auth.route("/admin_registration", methods=["GET", "POST"])
+def admin_registration():
     if current_user.is_authenticated:
         return redirect(url_for("views.home"))
     form = RegistrationForm()

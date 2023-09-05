@@ -9,12 +9,15 @@ from .models import User
 
 
 class RegistrationForm(FlaskForm):
+    first_name = StringField("First name", validators=[DataRequired(), Length(min=2, max=20, message="Your First Name should be more than 2 characters and less than 20")])
+    last_name = StringField("Last name", validators=[DataRequired(), Length(min=2, max=20, message="Your Last Name should be more than 2 characters and less than 20")])
+    phone_number = StringField("Phone number", validators=[DataRequired(), Length(min=2, max=20, message="Your Last Name should be more than 2 characters and less than 20")])
     username = StringField("Username", validators=[DataRequired(), Length(min=2, max=20, message="Your username should be more than 2 characters and less than 20")])
     email =  EmailField("Email", validators=[DataRequired(), Email(message="Please input a valid email"), Length(min=6, max=40, message="Your email should be more than 6 characters and less than 40")])
-    address =  StringField("Username", validators=[DataRequired(), Length(min=10, max=200, message="Your Address should be more than 10 characters and less than 200")])
+    address =  StringField("Address", validators=[DataRequired(), Length(min=10, max=200, message="Your Address should be more than 10 characters and less than 200")])
     password = PasswordField("Password", validators=[DataRequired(), Length(min=7, max=100, message="Your password should be more than 7 characters and less than 100")])
     confirm_password = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo("password", "Passwords does not match!")])
-    submit = SubmitField("Sign Up")
+    submit = SubmitField("Sign-Up")
 
     def validate_username(self, username):
         user = User.query.filter_by(username=self.username.data).first()

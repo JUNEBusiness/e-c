@@ -12,15 +12,19 @@ from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String(50), unique=True, nullable=True)
+    last_name = db.Column(db.String(50), unique=True, nullable=True)
+    address = db.Column(db.String(150), unique=True, nullable=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     image_file = db.Column(db.Text, nullable=False, default="default.jpg")
-    phone_number = db.Column(db.String(14), unique=True, nullable=False)
+    phone_number = db.Column(db.String(14), unique=True, nullable=True)
     password = db.Column(db.String(60), nullable=False)
     is_admin = db.Column(db.Boolean, nullable=False, default=False)
-    products = db.relationship('Product', backref = "author", lazy=True)
+    products = db.relationship('Product', backref = "Distributor", lazy=True)
     cart = db.relationship('Cart', backref = "Buyer", lazy=True)
 
     def get_reset_token(self):
@@ -50,12 +54,14 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
         
+
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.Text, nullable=False)
     price = db.Column(db.Text, nullable=False)
     url = db.Column(db.Text, nullable=False)
-    title = db.Column(db.Text, nullable=False)
+    name = db.Column(db.Text, nullable=False)
+    category = db.Column(db.Text, nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default= datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     carts = db.relationship('Cart', backref = "Products", lazy=True)
@@ -75,12 +81,13 @@ class Product(db.Model):
     def __repr__(self):
         return f"BlogPost('{self.title}', '{self.date_posted}')"
 
+
 class Cart(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date_added = db.Column(db.DateTime, nullable=False, default= datetime.utcnow)
     is_purchased = db.Column(db.Boolean, nullable=False, default=False)
     quantity = db.Column(db.Text, nullable=False)
-    product_id = db.Column(db.Integer, db.ForeignKey("Product.id"), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey("product.id"), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
 
