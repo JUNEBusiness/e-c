@@ -80,7 +80,7 @@ def register():
         return render_template("customer_register.html", title="Register", form=form)
     elif request.method =="POST":
         if form.validate_on_submit():
-            user = User(username=form.username.data, email=form.email.data, password=generate_password_hash(form.password.data)) 
+            user = User(first_name=form.first_name.data, last_name=form.last_name.data, address=form.address.data, username=form.username.data, email=form.email.data, phone_number=form.phone_number.data, password=generate_password_hash(form.password.data)) 
             user.insert()
             flash(f"Your account has been created! You are now able to log in { form.username.data }", "success")
             return redirect(url_for("auth.login"))
@@ -99,11 +99,9 @@ def admin_registration():
         return render_template("register.html", title="Register", form=form)
     elif request.method =="POST":
         if form.validate_on_submit():
-            user = User(username=form.username.data, email=form.email.data, password=generate_password_hash(form.password.data))
-            if form.email.data in ["justiceomonigho@yahoo.com", "tchelberwrites@gmail.com", "kalunkeiruka2852@gmail.com"]:
-                user = User(username=form.username.data, email=form.email.data, password=generate_password_hash(form.password.data), is_admin=True)  
+            user = User(first_name=form.first_name.data, last_name=form.last_name.data, address=form.address.data, username=form.username.data, email=form.email.data, phone_number=form.phone_number.data, password=generate_password_hash(form.password.data), is_admin=True)  
             user.insert()
-            flash(f"Your account has been created! You are now able to log in { form.username.data }", "success")
+            flash(f"Your admin account has been created! You are now able to log in { form.username.data }", "success")
             return redirect(url_for("auth.login"))
         else:
             form.username.data=form.username.data

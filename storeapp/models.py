@@ -15,9 +15,9 @@ def load_user(user_id):
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(50), unique=True, nullable=True)
-    last_name = db.Column(db.String(50), unique=True, nullable=True)
-    address = db.Column(db.String(150), unique=True, nullable=True)
+    first_name = db.Column(db.String(50), unique=False, nullable=False)
+    last_name = db.Column(db.String(50), unique=False, nullable=False)
+    address = db.Column(db.String(150), unique=True, nullable=False)
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     image_file = db.Column(db.Text, nullable=False, default="default.jpg")
@@ -87,7 +87,8 @@ class Cart(db.Model):
     date_added = db.Column(db.DateTime, nullable=False, default= datetime.utcnow)
     is_purchased = db.Column(db.Boolean, nullable=False, default=False)
     quantity = db.Column(db.Text, nullable=False)
-    product_id = db.Column(db.Integer, db.ForeignKey("product.id"), nullable=False)
+    product_code = db.Column(db.Integer, db.ForeignKey("product.id"), nullable=False)
+    is_purchased = db.Column(db.Boolean, nullable=False, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
 
