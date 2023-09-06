@@ -89,8 +89,7 @@ class Cart(db.Model):
     is_purchased = db.Column(db.Boolean, nullable=False, default=False)
     quantity = db.Column(db.Text, nullable=False)
     price = db.Column(db.Text, nullable=False)
-    product_code = db.Column(db.Integer, primary_key=True)
-    product_id = db.Column(db.Integer, db.ForeignKey("product.id"), nullable=False)
+    product_code = db.Column(db.Integer, db.ForeignKey("product.product_code"), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
 
