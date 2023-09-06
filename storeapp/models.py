@@ -87,8 +87,8 @@ class Cart(db.Model):
     date_added = db.Column(db.DateTime, nullable=False, default= datetime.utcnow)
     is_purchased = db.Column(db.Boolean, nullable=False, default=False)
     quantity = db.Column(db.Text, nullable=False)
-    product_code = db.Column(db.Integer, db.ForeignKey("product.id"), nullable=False)
-    is_purchased = db.Column(db.Boolean, nullable=False, default=False)
+    product_code = db.Column(db.Integer, primary_key=True)
+    product_id = db.Column(db.Integer, db.ForeignKey("product.id"), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
 
