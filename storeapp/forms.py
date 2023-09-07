@@ -64,9 +64,10 @@ class UpdateAccountForm(FlaskForm):
 
 
 class ProductPostForm(FlaskForm):
-    title =  StringField("Product name", validators=[DataRequired(), Length(min=2, max=50,  message="Your product name should be more than 2 characters and less than 50")])
+    name =  StringField("Product name", validators=[DataRequired(), Length(min=2, max=50,  message="Your product name should be more than 2 characters and less than 50")])
     price = StringField("Price", validators=[DataRequired(), Length(min=1, max=20,  message="Your price should be more than 1 characters and less than 20")])
-    product_url = StringField("Product URL", validators=[DataRequired(), Length(min=1, max=20,  message="Your price should be more than 1 characters and less than 20")])
+    product_url = StringField("Product URL", validators=[DataRequired(), Length(min=1, max=500,  message="Your product url should be more than 1 characters and less than 20")])
+    category = StringField("Category", validators=[DataRequired(), Length(min=1, max=20,  message="Your category should be more than 1 characters and less than 20")])
     Description =  TextAreaField("Description", validators=[DataRequired()])
     submit = SubmitField("Post")
 

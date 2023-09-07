@@ -1,10 +1,11 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash, abort
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
+import random 
 
 
 from .forms import RegistrationForm, LoginForm, ProductPostForm, UpdateAccountForm
-from .models import User
+from .models import User, Product, Cart
 from .utils import save_picture, delete_picture, send_reset_email
 
 auth = Blueprint("auth", __name__)
@@ -107,3 +108,19 @@ def admin_registration():
             form.username.data=form.username.data
             form.email.data=form.email.data
             return render_template("register.html", title="Register", form=form)
+
+
+@auth.route("/add_product", methods=["GET", "POST"])
+def add_product():
+    if current_user.is_authenticated:
+        form = ProductPostForm()
+        if request.method == "GET":
+            return render_template("add_product.html", title="Add product", form=form)
+        if form.validate_on_submit():
+            product = Product(price=form.price.data, product_code= random.randrange(10000, 90000, 1234), name=form.name.data, category=form.category.data, url=form.product_url.data, description="Lorem ipsum dolor sit amet, adipiscing elit.")
+            product.insert()
+            flash("You have successfully added this product to the marketplace")
+        else:
+            return render_template("add_product.html", title="Add product", form=form)
+    else:
+        abort(403)
