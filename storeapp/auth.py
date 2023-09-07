@@ -111,6 +111,7 @@ def admin_registration():
 
 
 @auth.route("/add_product", methods=["GET", "POST"])
+@login_required
 def add_product():
     if current_user.is_authenticated:
         form = ProductPostForm()
@@ -124,3 +125,38 @@ def add_product():
             return render_template("add_product.html", title="Add product", form=form)
     else:
         abort(403)
+
+
+@auth.route("/add_to_cart", methods=["POST"])
+@login_required
+def add_to_cart():
+    if current_user.is_authenticated:
+        form = ProductPostForm()
+        if request.method == "GET":
+            return render_template("add_product.html", title="Add product", form=form)
+        if form.validate_on_submit():
+            product = Product(price=form.price.data, product_code= random.randrange(10000, 90000, 1234), name=form.name.data, category=form.category.data, url=form.product_url.data, description="Lorem ipsum dolor sit amet, adipiscing elit.")
+            product.insert()
+            flash("You have successfully added this product to the marketplace")
+        else:
+            return render_template("add_product.html", title="Add product", form=form)
+    else:
+        abort(403)
+
+
+@auth.route("/remove_from_cart", methods=["GET"])
+@login_required
+def remove_from_cart():
+    if current_user.is_authenticated:
+        form = ProductPostForm()
+        if request.method == "GET":
+            return render_template("add_product.html", title="Add product", form=form)
+        if form.validate_on_submit():
+            product = Product(price=form.price.data, product_code= random.randrange(10000, 90000, 1234), name=form.name.data, category=form.category.data, url=form.product_url.data, description="Lorem ipsum dolor sit amet, adipiscing elit.")
+            product.insert()
+            flash("You have successfully added this product to the marketplace")
+        else:
+            return render_template("add_product.html", title="Add product", form=form)
+    else:
+        abort(403)
+

@@ -4,6 +4,7 @@ from os import path
 from .extensions import db
 from .extensions import login_manager
 from .extensions import mail
+from .utils import add_data
 
 DB_NAME = "commerce.db"
 
@@ -40,7 +41,7 @@ def create_app():
     
     with app.app_context():
         create_database()
-
+        add_data()
     return app
 
 

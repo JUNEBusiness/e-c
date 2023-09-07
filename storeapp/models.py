@@ -25,7 +25,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     is_admin = db.Column(db.Boolean, nullable=False, default=False)
     products = db.relationship('Product', backref = "Distributor", lazy=True)
-    cart = db.relationship('Cart', backref = "Buyer", lazy=True)
+    carts = db.relationship('Cart', backref = "Buyer", lazy=True)
 
     def get_reset_token(self):
         s = Serializer(current_app.config["SECRET_KEY"], salt="Reset_password")
