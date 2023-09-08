@@ -48,6 +48,5 @@ def create_app():
 def create_database():
     if not path.exists("e-commerce/" + DB_NAME):
         db.create_all()
-        add_data()
-        print("51 products has been added!")
+        # add_data()
         return 0

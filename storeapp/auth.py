@@ -161,27 +161,11 @@ def remove_from_cart():
     else:
         abort(403)
 
-
-# @auth.route("/search", methods=["GET"])
-# def search():
-#     data = request.get_json()
-#     needle = data.get('needle')
-#     results_per_page = data.get('results_per_page')
-#     page_num = data.get('page_num')
-#     if not needle:
-#         results = Employee.query.join(User, User.id==Employee.user_id).paginate(per_page=results_per_page, page=page_num)
-
-#     if '*' in needle or '_' in needle: 
-#         looking_for = needle.replace('_', '__')\
-#                             .replace('*', '%')\
-#                             .replace('?', '_')
-#     else:
-#         looking_for = '%{0}%'.format(needle)
-
-#     if results_per_page and page_num:
-#         results = Employee.query.join(User, User.id==Employee.user_id).filter((Employee.position.ilike(looking_for))\
-#                                                                                         | (User.first_name.ilike(looking_for))\
-#                                                                                         | (User.last_name.ilike(looking_for)))\
-#                                                                                         .paginate(per_page=results_per_page, page=page_num)
-#         return api_response([i.get_all(True) for i in results.items])
-        
+@auth.route("/checkout", methods=["GET"])
+@login_required
+def checkout():
+    if current_user.is_authenticated:
+        flash(f"Your products have been shipped to {current_user.address}")
+        return redirect(url_for("views.home"))
+    else:
+        abort(403)
