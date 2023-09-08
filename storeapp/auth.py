@@ -6,7 +6,7 @@ import random
 
 from .forms import RegistrationForm, LoginForm, ProductPostForm, UpdateAccountForm
 from .models import User, Product, Cart
-from .utils import save_picture, delete_picture, send_reset_email
+from .utils import save_picture, delete_picture, send_reset_email, add_data
 
 auth = Blueprint("auth", __name__)
 
@@ -121,6 +121,7 @@ def add_product():
             product = Product(price=form.price.data, product_code= random.randrange(10000, 90000, 1234), name=form.name.data, category=form.category.data, url=form.product_url.data, description="Lorem ipsum dolor sit amet, adipiscing elit.")
             product.insert()
             flash("You have successfully added this product to the marketplace")
+            return redirect(url_for("views.home"))
         else:
             return render_template("add_product.html", title="Add product", form=form)
     else:
@@ -152,11 +153,35 @@ def remove_from_cart():
         if request.method == "GET":
             return render_template("add_product.html", title="Add product", form=form)
         if form.validate_on_submit():
-            product = Product(price=form.price.data, product_code= random.randrange(10000, 90000, 1234), name=form.name.data, category=form.category.data, url=form.product_url.data, description="Lorem ipsum dolor sit amet, adipiscing elit.")
-            product.insert()
+            product = Cart.query.get()
+            product.delete()
             flash("You have successfully added this product to the marketplace")
         else:
             return render_template("add_product.html", title="Add product", form=form)
     else:
         abort(403)
 
+
+# @auth.route("/search", methods=["GET"])
+# def search():
+#     data = request.get_json()
+#     needle = data.get('needle')
+#     results_per_page = data.get('results_per_page')
+#     page_num = data.get('page_num')
+#     if not needle:
+#         results = Employee.query.join(User, User.id==Employee.user_id).paginate(per_page=results_per_page, page=page_num)
+
+#     if '*' in needle or '_' in needle: 
+#         looking_for = needle.replace('_', '__')\
+#                             .replace('*', '%')\
+#                             .replace('?', '_')
+#     else:
+#         looking_for = '%{0}%'.format(needle)
+
+#     if results_per_page and page_num:
+#         results = Employee.query.join(User, User.id==Employee.user_id).filter((Employee.position.ilike(looking_for))\
+#                                                                                         | (User.first_name.ilike(looking_for))\
+#                                                                                         | (User.last_name.ilike(looking_for)))\
+#                                                                                         .paginate(per_page=results_per_page, page=page_num)
+#         return api_response([i.get_all(True) for i in results.items])
+        

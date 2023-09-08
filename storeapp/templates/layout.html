@@ -46,7 +46,7 @@
             <ul class="navbar-nav d-flex align-items-center">
                 <li class="nav-item">
                     <div class="d-flex flex-row">
-                        <img src="{{ url_for('static', filename='images/default.jpg') }}" class="rounded-circle" width="30">
+                        <img src="{{ url_for('static', filename='profile_pics/' + current_user.image_file) }}" class="rounded-circle" width="30">
                     </div>
                 </li>
                 <li class="nav-item">
@@ -68,10 +68,12 @@
                         </a>
                    </div>
                    <div class="col-md-8">
-                <div class="d-flex form-inputs">
-                <input class="form-control curve" type="text" placeholder="Search any product...">
-                <i class="bx bx-search"></i>
-                </div>
+                    <form action="{{ url_for('views.search')}}">
+                    <div class="d-flex form-inputs">
+                    <input class="form-control curve" type="text" placeholder="Search any product..." name="search">
+                    <button type="submit"><i class="bx bx-search"></i></button>
+                    </div>
+                    </form>
                    </div>
                    
                    <div class="col-md-2">

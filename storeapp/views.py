@@ -3,7 +3,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from .models import User
+from .models import User, Product, Cart
 from .forms import RequestResetForm, ResetPasswordForm
 from .utils import send_reset_email
 
@@ -46,4 +46,26 @@ def reset_password(token):
 		flash(f"Your password has been updated! You are now able to log in { user.username }", "success")
 		return redirect(url_for("auth.login"))
 	return render_template("reset_password.html", title="Reset Password", form=form)
-	
+
+
+
+@views.route("/search", methods=["GET"])
+def search():
+    needle = request.args.get("search")
+    page_number = request.args.get("page", 1, type=int)
+    if not needle:
+        results = Product.query.order_by(Product.date_posted.desc()).paginate(per_page=10, page=page_number) 
+		return render_template('search.html', products=results)
+    if '*' in needle or '_' in needle: 
+        looking_for = needle.replace('_', '__')\
+                            .replace('*', '%')\
+                            .replace('?', '_')
+    else:
+        looking_for = '%{0}%'.format(needle)
+
+    if page_number:
+        results = Product.query.filter((Product.name.ilike(looking_for)) | (Product.category.ilike(looking_for))\
+                                                                         | (Product.product_code.ilike(looking_for)))\
+                                                                         .paginate(per_page=10, page=page_number)
+        return render_template('search.html', products=results) 
+        

@@ -59,13 +59,12 @@ class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.Text, nullable=False)
     price = db.Column(db.Integer, nullable=False)
-    product_code = db.Column(db.Integer, primary_key=True)
+    product_code = db.Column(db.Integer, nullable=False)
     url = db.Column(db.Text, nullable=False)
     name = db.Column(db.Text, nullable=False)
     category = db.Column(db.Text, nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default= datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, default=1)
-    carts = db.relationship('Cart', backref = "Products", lazy=True)
 
 
     def insert(self):

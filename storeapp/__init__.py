@@ -10,6 +10,7 @@ DB_NAME = "commerce.db"
 
 
 def create_app():
+    # app configuration
     app = Flask(__name__)
     app.config["SECRET_KEY"] = "46face59834549cb75e923414dba7c360890b58ee4c0985caba12b9222d44064"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -41,11 +42,12 @@ def create_app():
     
     with app.app_context():
         create_database()
-        add_data()
     return app
 
-
+# creates a database and populates it if the database does not already exist
 def create_database():
     if not path.exists("e-commerce/" + DB_NAME):
         db.create_all()
+        add_data()
+        print("51 products has been added!")
         return 0
