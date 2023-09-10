@@ -53,7 +53,15 @@ If you did not make this request then simply ignore this email and no changes wi
 '''
     mail.send(msg)
 
+def get_totals(cart_items):
+    total = 0
+    grand_total = 0
+    for item in cart_items:
+        total = total + int(item.quantity)
+        grand_total = grand_total + int(item.total_price)
+    return [total, grand_total]
 
+# Inserts dummy data to the database
 def add_data():
     try:
         product1 = Product(price=random.randint(50, 200), product_code= random.randrange(10000, 90000, 1234), name="Creamy Woman", category="fashion", url="https://images.pexels.com/photos/2043590/pexels-photo-2043590.jpeg?auto=compress&cs=tinysrgb&w=600", description="Lorem ipsum dolor sit amet, adipiscing elit.")
@@ -162,4 +170,5 @@ def add_data():
         return True
     except:
         print("Something went wrong")
-    
+
+

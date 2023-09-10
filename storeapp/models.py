@@ -79,15 +79,17 @@ class Product(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return f"BlogPost('{self.title}', '{self.date_posted}')"
+        return f"Product('{self.name}', '{self.date_posted}')"
 
 
 class Cart(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date_added = db.Column(db.DateTime, nullable=False, default= datetime.utcnow)
     is_purchased = db.Column(db.Boolean, nullable=False, default=False)
-    quantity = db.Column(db.Text, nullable=False)
-    price = db.Column(db.Text, nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Integer, nullable=False)
+    total_price = db.Column(db.Integer, nullable=False)
+    url = db.Column(db.Text, nullable=False)
     product_code = db.Column(db.Integer, db.ForeignKey("product.product_code"), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
@@ -104,5 +106,5 @@ class Cart(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return f"BlogPost('{self.title}', '{self.date_added}')"
+        return f"Cart('{self.product_code}', '{self.date_added}')"
     

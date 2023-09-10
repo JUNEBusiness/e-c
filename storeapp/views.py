@@ -55,7 +55,6 @@ def categories():
 	try:
 		if post_category == "All" or post_category == 1:
 			results = Product.query.order_by(Product.date_posted.desc()).paginate(per_page=10, page=page_number)
-			print("Hello")
 		else:
 			results = Product.query.filter_by(category=post_category).order_by(Product.date_posted.desc()).paginate(per_page=10, page=page_number)
 
@@ -71,7 +70,6 @@ def search():
 	try:
 		if not needle:
 			results = Product.query.order_by(Product.date_posted.desc()).paginate(per_page=10, page=page_number)
-			print("Hello needle")
 		
 		if '*' in needle or '_' in needle: 
 			looking_for = needle.replace('_', '__')\
@@ -81,11 +79,10 @@ def search():
 			looking_for = '%{0}%'.format(needle)
 
 		if page_number and looking_for:
-			
 			results = Product.query.filter((Product.name.ilike(looking_for)) | (Product.category.ilike(looking_for))\
 																			| (Product.product_code.ilike(looking_for)))\
 																			.paginate(per_page=10, page=page_number)
-			
+	
 		return render_template('search.html', products=results, needle=needle)
 	except:
 		print("Something went wrong!!") 

@@ -44,6 +44,7 @@
                 <li class="nav-item"><a class="nav-link fw-bold" href="#" data-abc="true">Cash Backs</a></li>
             </ul>
             <ul class="navbar-nav d-flex align-items-center">
+              <a href="{{ url_for('auth.profile') }}">
                 <li class="nav-item">
                     <div class="d-flex flex-row">
                         <img src="{{ url_for('static', filename='profile_pics/' + current_user.image_file) }}" class="rounded-circle" width="30">
@@ -52,7 +53,7 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link d-flex align-items-center fw-bold" data-abc="true"><span>{{ current_user.username }}</span><i class='bx bxs-chevron-down'></i></a>
                 </li>
-                
+              </a>
             </ul> <!-- list-inline //  -->
           </div> <!-- navbar-collapse .// -->
          <!-- container //  -->
